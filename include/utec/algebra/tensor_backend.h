@@ -33,15 +33,13 @@
             Shape shape() {
                 return Shape(dim);
             }
-            int numel(){
-                int numel = 1;
-                for(int i = 0; i < dim.size(); i++) {
-                    numel *= dim[i];
-                }
-                return numel;
+            const int numel(){
+                Shape shape(dim);
+                return shape.numel();
             }
-            int rank() {
-                return dim.size();
+            const int rank() {
+                Shape shape(dim);
+                return shape.rank();
             }
             static Tensor<T> zeros(Shape shape) {
                 Tensor<T> t;
