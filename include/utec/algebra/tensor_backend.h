@@ -30,7 +30,7 @@
 
         public:
             Tensor() = default;
-            Shape shape() {
+            Shape shape() const{
                 return Shape(dim);
             }
              int numel() const {
