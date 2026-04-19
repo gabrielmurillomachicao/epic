@@ -54,7 +54,17 @@
                 t.values = std::vector<T>(shape.numel(), 1);
                 return t;
             }
-
+            static Tensor<T> from_data(Shape shape,std::vector<T> v) {
+                if (shape.numel() != v.size()) {
+                    throw std::out_of_range("Tensor::from_data");
+                }
+                else {
+                    Tensor<T> t;
+                    t.dim = shape.to_vector();
+                    t.values = v;
+                    return t;
+                }
+            }
             size_t numel()  {
                 return values.size();
             }
