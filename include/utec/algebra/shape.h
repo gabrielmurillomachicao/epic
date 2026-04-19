@@ -4,7 +4,6 @@
 namespace utec {
     namespace tf {
         class Shape {
-
             std::vector<int> data;
         public:
             Shape() = default;

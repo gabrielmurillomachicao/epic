@@ -13,9 +13,20 @@
 
         template<typename T>
         class Tensor {
-        private:
             std::vector<T> values;
             std::vector<int> dim;
+            int flatten(const std::vector<int>& coords) const {
+                int index = 0;
+                int mult = 1;
+
+                for (int i = static_cast<int>(dim.size()) - 1; i >= 0; --i) {
+                    index += coords[i] * mult;
+                    mult *= dim[i];
+                }
+
+                return index;
+            }
+
 
         public:
             Tensor() = default;
@@ -50,20 +61,6 @@
                 return values.size();
             }
 
-        private:
-            int flatten(const std::vector<int>& coords) const {
-                int index = 0;
-                int mult = 1;
-
-                for (int i = static_cast<int>(dim.size()) - 1; i >= 0; --i) {
-                    index += coords[i] * mult;
-                    mult *= dim[i];
-                }
-
-                return index;
-            }
-
-        public:
             template<typename... Args>
             T& operator()(Args... args) {
                 std::vector<int> coords = {args...};
