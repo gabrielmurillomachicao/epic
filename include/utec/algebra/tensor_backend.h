@@ -33,11 +33,11 @@
             Shape shape() {
                 return Shape(dim);
             }
-            const int numel(){
+             int numel() const {
                 Shape shape(dim);
                 return shape.numel();
             }
-            const int rank() {
+             int rank() const {
                 Shape shape(dim);
                 return shape.rank();
             }
@@ -55,7 +55,7 @@
                 return t;
             }
 
-            size_t numel() const {
+            size_t numel()  {
                 return values.size();
             }
 
