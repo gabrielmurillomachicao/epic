@@ -63,11 +63,15 @@
             size_t numel()  {
                 return values.size();
             }
-            Tensor& reshape(Shape shape1) const {
+            Tensor reshape(Shape shape1) const {
                 Shape shape2(dim);
                 if (shape1.numel()!=shape2.numel()) {
                     throw std::invalid_argument("Shape must be the same size as Tensor");
                 }
+                Tensor t;
+                t.dim = shape1.to_vector();
+                t.values = values;
+                return t;
             }
             const Tensor operator+(Tensor t1) const {
                 Tensor t;
