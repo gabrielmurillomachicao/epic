@@ -55,15 +55,13 @@
                 return t;
             }
             static Tensor<T> from_data(Shape shape,std::vector<T> v) {
-                if (shape.numel() != v.size()) {
-                    throw std::out_of_range("Tensor::from_data");
+                if (shape.numel() != v.size()||shape.numel() ==0) {
+                    throw std::invalid_argument("Shape must be the same size as Tensor");
                 }
-                else {
-                    Tensor<T> t;
-                    t.dim = shape.to_vector();
-                    t.values = v;
-                    return t;
-                }
+                Tensor<T> t;
+                t.dim = shape.to_vector();
+                t.values = v;
+                return t;
             }
             size_t numel()  {
                 return values.size();
@@ -72,12 +70,28 @@
             template<typename... Args>
             T& operator()(Args... args) {
                 std::vector<int> coords = {args...};
+                if (coords.size()!=dim.size()) {
+                    throw std::out_of_range("Shape must be the same size as Tensor");
+                }
+                for (int i=0; i<coords.size(); i++) {
+                    if (coords[i] >= dim[i]) {
+                        throw std::out_of_range("");
+                    }
+                }
                 return values[flatten(coords)];
             }
 
             template<typename... Args>
             const T& operator()(Args... args) const {
                 std::vector<int> coords = {args...};
+                if (coords.size()!=dim.size()) {
+                    throw std::out_of_range("Shape must be the same size as Tensor");
+                }
+                for (int i=0; i<coords.size(); i++) {
+                    if (coords[i] >= dim[i]) {
+                        throw std::out_of_range("");
+                    }
+                }
                 return values[flatten(coords)];
             }
         };

@@ -13,7 +13,13 @@ namespace utec {
             friend bool operator==(const Shape& lhs, const Shape& rhs) {
                 return lhs.data == rhs.data;
             };
-            explicit Shape (std::vector<int> data) : data(std::move(data)) {}
+            explicit Shape (std::vector<int> data) : data(std::move(data)) {
+                for (int i = 0; i < data.size(); ++i) {
+                    if (data[i] <=0) {
+                        throw std::invalid_argument("Shape value is less than zero");
+                    }
+                }
+            }
             Shape(int x, int y, int z) : data{x, y, z} {
                 if (x<0 || y<0 || z<0) {
                     throw std::invalid_argument("Invalid shape");
