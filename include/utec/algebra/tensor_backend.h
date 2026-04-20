@@ -5,26 +5,23 @@
     #include "shape.h"
     #ifndef PROG3_PF_EPIC1_FEATURE1_V2026_01_TENSOR_BACKEND_H
     #define PROG3_PF_EPIC1_FEATURE1_V2026_01_TENSOR_BACKEND_H
-
     #include <vector>
-
+    //using namespace std
     namespace utec {
     namespace tf {
-
         template<typename T>
         class Tensor {
-            std::vector<T> values;
-            std::vector<int> dim;
-            int flatten(const std::vector<int>& coords) const {
+            std::vector<T> values;//{1,2,3,4,5,6,7,8,9}
+            std::vector<int> dim;//{3,3}(0,0,0)//2dim[1]=3
+            int flatten(const std::vector<int>& coords) const{//{0,0}
                 int index = 0;
                 int mult = 1;
-
-                for (int i = static_cast<int>(dim.size()) - 1; i >= 0; --i) {
+                for (int i = static_cast<int>(dim.size()) - 1; i >= 0; --i) {//{0,1}
                     index += coords[i] * mult;
                     mult *= dim[i];
                 }
 
-                return index;
+                return index;//int values[index]=valor en la coordenada
             }
 
 
@@ -66,7 +63,12 @@
             size_t numel()  {
                 return values.size();
             }
-
+            Tensor& reshape(Shape shape1) const {
+                Shape shape2(dim);
+                if (shape1.numel()!=shape2.numel()) {
+                    throw std::invalid_argument("Shape must be the same size as Tensor");
+                }
+            }
             template<typename... Args>
             T& operator()(Args... args) {
                 std::vector<int> coords = {args...};
