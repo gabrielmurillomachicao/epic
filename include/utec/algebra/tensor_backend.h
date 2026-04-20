@@ -69,6 +69,35 @@
                     throw std::invalid_argument("Shape must be the same size as Tensor");
                 }
             }
+            const Tensor operator+(Tensor t1) const {
+                Tensor t;
+                t.dim = this->dim;
+                t.values = this->values;
+                if (t.dim==t1.dim) {
+                    for (int i = 0; i < this->values.size(); ++i) {
+                        t.values[i] += t1.values[i];
+                    }
+                }
+                else {
+                    throw std::invalid_argument("Cannot add tensor with dimensions not equal");
+                }
+                return t;
+            }
+            Tensor operator+(Tensor t1) {
+                Tensor t;
+                t.dim = this->dim;
+                t.values = this->values;
+                if (t.dim==t1.dim) {
+                    for (int i = 0; i < this->values.size(); ++i) {
+                        t.values[i] += t1.values[i];
+                    }
+                }
+                else {
+                    throw std::invalid_argument("Cannot add tensor with dimensions not equal");
+                }
+                return t;
+            }
+
             template<typename... Args>
             T& operator()(Args... args) {
                 std::vector<int> coords = {args...};
@@ -96,9 +125,11 @@
                 }
                 return values[flatten(coords)];
             }
+
         };
 
     } // namespace tf
 } // namespace utec
+using utec::tf::Tensor;
 
 #endif
